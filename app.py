@@ -87,6 +87,7 @@ def allowed_image(filename):
 # Session security
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE", "0") == "1"
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 # Initialize database
