@@ -84,7 +84,7 @@ def allowed_image(filename):
     )
 
 # Secret key used by Flask sessions
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+# Session security
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
