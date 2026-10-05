@@ -17,7 +17,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from database import get_db_connection, init_db
 
 load_dotenv()
+
 app = Flask(__name__)
+
+secret_key = os.getenv("SECRET_KEY")
+
+if not secret_key:
+    raise RuntimeError("SECRET_KEY is not configured.")
+
+app.config["SECRET_KEY"] = secret_key
+
 csrf = CSRFProtect(app)
 
 UPLOAD_FOLDER = os.path.join(
