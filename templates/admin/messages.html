@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Messages | Admin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    {% include "admin/_sidebar.html" %}
+
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+        <div class="admin-mobile-header">
+
+            <div class="admin-mobile-brand">
+                <div class="admin-logo-mark">A</div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="admin-mobile-menu-button"
+                id="adminMobileMenuButton"
+                aria-label="Open admin navigation"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+        <!-- TOPBAR -->
+        <div class="admin-topbar">
+
+            <div>
+                <div class="admin-eyebrow">
+                    PORTFOLIO
+                </div>
+
+                <h1>Messages</h1>
+
+                <p class="admin-subtitle">
+                    Review messages submitted through your portfolio.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+        <section class="admin-section">
+
+            <div class="messages-page-header">
+
+                <div>
+                    <h2>Contact Messages</h2>
+
+                    <p>
+                        Messages from visitors and potential employers.
+                    </p>
+                </div>
+
+                {% if messages %}
+                    <span class="messages-count">
+                        {{ messages|length }}
+                        {% if messages|length == 1 %}
+                            message
+                        {% else %}
+                            messages
+                        {% endif %}
+                    </span>
+                {% endif %}
+
+            </div>
+
+
+            {% if messages %}
+
+            <div class="messages-list">
+
+                {% for message in messages %}
+
+                <article class="message-card">
+
+                    <div class="message-card-header">
+
+                        <div class="message-sender">
+
+                            <div class="message-avatar">
+                                {{ message["name"][0]|upper }}
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    {{ message["name"] }}
+                                </h3>
+
+                                <a
+                                    href="mailto:{{ message['email'] }}"
+                                    class="message-email"
+                                >
+                                    {{ message["email"] }}
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="message-date">
+                            {{ message["created_at"] }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="message-content">
+
+                        <span class="message-content-label">
+                            MESSAGE
+                        </span>
+
+                        <p>
+                            {{ message["message"] }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="message-card-footer">
+
+                        <a
+                            href="mailto:{{ message['email'] }}"
+                            class="message-reply-btn"
+                        >
+                            Reply
+                        </a>
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('delete_message', message_id=message['id']) }}"
+                            style="display: inline;"
+                        >
+                            <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="{{ csrf_token() }}"
+                            >
+
+                            <button
+                                type="submit"
+                                class="project-delete-btn"
+                                onclick="return confirm('Are you sure you want to delete this message?');"
+                            >
+                                Delete
+                            </button>
+                        </form>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="messages-empty-state">
+
+                <div class="messages-empty-icon">
+                    ✉
+                </div>
+
+                <h3>No Messages Yet</h3>
+
+                <p>
+                    Messages submitted through your portfolio
+                    contact form will appear here.
+                </p>
+
+                <a
+                    href="{{ url_for('home') }}#contact"
+                    target="_blank"
+                    class="messages-portfolio-btn"
+                >
+                    View Contact Form
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <footer class="admin-footer">
+            Portfolio Admin Panel
+        </footer>
+
+    </main>
+
+</div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+</body>
+</html>

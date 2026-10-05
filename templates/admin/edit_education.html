@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Education | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+
+            <div class="admin-logo">
+
+                <div class="admin-logo-mark">
+                    A
+                </div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+
+            </div>
+
+
+            <nav class="admin-nav">
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        MAIN
+                    </div>
+
+                    <a href="{{ url_for('admin_dashboard') }}">
+                        Dashboard
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        CONTENT
+                    </div>
+
+                    <a href="{{ url_for('manage_projects') }}">
+                        Projects
+                    </a>
+
+                    <a href="{{ url_for('manage_skills') }}">
+                        Skills
+                    </a>
+
+                    <a href="{{ url_for('manage_experience') }}">
+                        Experience
+                    </a>
+
+                    <a href="{{ url_for('manage_education') }}"
+                       class="active">
+                        Education
+                    </a>
+
+                    <a href="{{ url_for('manage_certifications') }}">
+                        Certifications
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        PORTFOLIO
+                    </div>
+
+                    <a href="{{ url_for('manage_resume') }}">
+                        Resume
+                    </a>
+
+                    <a href="{{ url_for('manage_messages') }}">
+                        Messages
+                    </a>
+
+                    <a href="{{ url_for('site_settings') }}">
+                        Site Settings
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <div class="admin-sidebar-bottom">
+
+                <a href="/"
+                   class="sidebar-portfolio-link">
+                    View Portfolio
+                </a>
+
+                <a href="{{ url_for('admin_logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        EDUCATION
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Update an existing education entry
+                    </div>
+
+                </div>
+
+
+                <a href="{{ url_for('manage_education') }}"
+                   class="admin-view-btn">
+                    ← Back to Education
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="edit-education-page-header">
+
+                    <div>
+
+                        <h1>Edit Education</h1>
+
+                        <p>
+                            Update the educational information
+                            displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORM CARD -->
+                <div class="edit-education-card">
+
+                    <div class="edit-education-card-header">
+
+                        <div>
+
+                            <h2>Education Details</h2>
+
+                            <p>
+                                Modify the degree, institution,
+                                duration or other details.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        action="{{ url_for('edit_education', education_id=education['id']) }}"
+                        method="POST"
+                        class="edit-education-form"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+                        <div class="edit-education-grid">
+
+                            <!-- DEGREE -->
+
+                            <div class="edit-education-group">
+
+                                <label for="degree">
+                                    Degree / Qualification
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="degree"
+                                    name="degree"
+                                    value="{{ education['degree'] }}"
+                                    placeholder="B.Tech – Computer Science and Engineering"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- INSTITUTION -->
+
+                            <div class="edit-education-group">
+
+                                <label for="institution">
+                                    Institution
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="institution"
+                                    name="institution"
+                                    value="{{ education['institution'] }}"
+                                    placeholder="TKM Institute of Technology"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+
+                            <div class="edit-education-group">
+
+                                <label for="location">
+                                    Location
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="location"
+                                    name="location"
+                                    value="{{ education['location'] or '' }}"
+                                    placeholder="Kollam, Kerala"
+                                >
+
+                            </div>
+
+
+                            <!-- START DATE -->
+
+                            <div class="edit-education-group">
+
+                                <label for="start_date">
+                                    Start Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="start_date"
+                                    name="start_date"
+                                    value="{{ education['start_date'] or '' }}"
+                                    placeholder="2022"
+                                >
+
+                            </div>
+
+
+                            <!-- END DATE -->
+
+                            <div class="edit-education-group">
+
+                                <label for="end_date">
+                                    End Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="end_date"
+                                    name="end_date"
+                                    value="{{ education['end_date'] or '' }}"
+                                    placeholder="2026"
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="edit-education-group edit-education-full">
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    rows="6"
+                                    placeholder="Add relevant details about your education..."
+                                >{{ education['description'] or '' }}</textarea>
+
+                                <span class="edit-education-help">
+                                    Add achievements, coursework,
+                                    specialization or other relevant details.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="edit-education-actions">
+
+                            <button
+                                type="submit"
+                                class="admin-primary-btn"
+                            >
+                                Save Changes
+                            </button>
+
+
+                            <a
+                                href="{{ url_for('manage_education') }}"
+                                class="admin-cancel-btn"
+                            >
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

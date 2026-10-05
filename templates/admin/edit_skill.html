@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Skill | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+
+            <div class="admin-logo">
+
+                <div class="admin-logo-mark">
+                    A
+                </div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+
+            </div>
+
+
+            <nav class="admin-nav">
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        MAIN
+                    </div>
+
+                    <a href="{{ url_for('admin_dashboard') }}">
+                        Dashboard
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        CONTENT
+                    </div>
+
+                    <a href="{{ url_for('manage_projects') }}">
+                        Projects
+                    </a>
+
+                    <a href="{{ url_for('manage_skills') }}" class="active">
+                        Skills
+                    </a>
+
+                    <a href="{{ url_for('manage_experience') }}">
+                        Experience
+                    </a>
+
+                    <a href="{{ url_for('manage_education') }}">
+                        Education
+                    </a>
+
+                    <a href="{{ url_for('manage_certifications') }}">
+                        Certifications
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        PORTFOLIO
+                    </div>
+
+                    <a href="{{ url_for('manage_resume') }}">
+                        Resume
+                    </a>
+
+                    <a href="{{ url_for('manage_messages') }}">
+                        Messages
+                    </a>
+
+                    <a href="{{ url_for('site_settings') }}">
+                        Site Settings
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <div class="admin-sidebar-bottom">
+
+                <a href="/" class="sidebar-portfolio-link">
+                    View Portfolio
+                </a>
+
+                <a href="{{ url_for('admin_logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        SKILLS
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Update an existing skill
+                    </div>
+
+                </div>
+
+
+                <a href="{{ url_for('manage_skills') }}"
+                   class="admin-view-btn">
+                    ← Back to Skills
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="edit-skill-page-header">
+
+                    <div>
+
+                        <h1>Edit Skill</h1>
+
+                        <p>
+                            Update the skill information displayed
+                            on your portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORM CARD -->
+                <div class="edit-skill-card">
+
+                    <div class="edit-skill-card-header">
+
+                        <div>
+
+                            <h2>Skill Information</h2>
+
+                            <p>
+                                Modify the name or category of this skill.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form method="POST"
+                          class="edit-skill-form">
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+                        <div class="edit-skill-group">
+
+                            <label for="name">
+                                Skill Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="{{ skill['name'] }}"
+                                placeholder="e.g. Python"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="edit-skill-group">
+
+                            <label for="category">
+                                Category
+                            </label>
+
+                            <select
+                                id="category"
+                                name="category"
+                                required
+                            >
+                                <option value="Programming"
+                                    {% if skill["category"] == "Programming" %}selected{% endif %}>
+                                    Programming
+                                </option>
+
+                                <option value="Machine Learning"
+                                    {% if skill["category"] == "Machine Learning" %}selected{% endif %}>
+                                    Machine Learning
+                                </option>
+
+                                <option value="Data Science"
+                                    {% if skill["category"] == "Data Science" %}selected{% endif %}>
+                                    Data Science
+                                </option>
+
+                                <option value="Web Development"
+                                    {% if skill["category"] == "Web Development" %}selected{% endif %}>
+                                    Web Development
+                                </option>
+
+                                <option value="Databases"
+                                    {% if skill["category"] == "Databases" %}selected{% endif %}>
+                                    Databases
+                                </option>
+
+                                <option value="Tools"
+                                    {% if skill["category"] == "Tools" %}selected{% endif %}>
+                                    Tools
+                                </option>
+
+                                <option value="AI & Embedded Systems"
+                                    {% if skill["category"] == "AI & Embedded Systems" %}selected{% endif %}>
+                                    AI & Embedded Systems
+                                </option>
+
+                                <option value="Other"
+                                    {% if skill["category"] == "Other" %}selected{% endif %}>
+                                    Other
+                                </option>
+                            </select>
+
+                            <span class="edit-skill-help">
+                                Example: Programming, Machine Learning,
+                                Data Science, Tools, Web, etc.
+                            </span>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+                        <div class="edit-skill-actions">
+
+                            <button
+                                type="submit"
+                                class="admin-primary-btn"
+                            >
+                                Save Changes
+                            </button>
+
+
+                            <a
+                                href="{{ url_for('manage_skills') }}"
+                                class="admin-cancel-btn"
+                            >
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<aside class="admin-sidebar">
+
+    <!-- =========================
+         SIDEBAR BRAND
+    ========================== -->
+
+    <div class="admin-logo">
+
+        <div class="admin-logo-mark">
+            A
+        </div>
+
+        <div>
+            <h2>Abdul Adhil</h2>
+            <p>Portfolio CMS</p>
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SIDEBAR NAVIGATION
+    ========================== -->
+
+    <nav class="admin-nav">
+
+        <!-- MAIN -->
+
+        <div class="nav-section">
+
+            <span class="nav-section-title">
+                MAIN
+            </span>
+
+            <a
+                href="{{ url_for('admin_dashboard') }}"
+                class="{% if request.endpoint == 'admin_dashboard' %}active{% endif %}"
+            >
+                <span class="nav-icon">⌂</span>
+                Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="nav-section">
+
+            <span class="nav-section-title">
+                CONTENT
+            </span>
+
+            <a
+                href="{{ url_for('manage_projects') }}"
+                class="{% if request.endpoint in ['manage_projects', 'add_project', 'edit_project'] %}active{% endif %}"
+            >
+                <span class="nav-icon">▣</span>
+                Projects
+            </a>
+
+            <a
+                href="{{ url_for('manage_skills') }}"
+                class="{% if request.endpoint in ['manage_skills', 'edit_skill'] %}active{% endif %}"
+            >
+                <span class="nav-icon">◆</span>
+                Skills
+            </a>
+
+            <a
+                href="{{ url_for('manage_experience') }}"
+                class="{% if request.endpoint in ['manage_experience', 'edit_experience'] %}active{% endif %}"
+            >
+                <span class="nav-icon">◈</span>
+                Experience
+            </a>
+
+            <a
+                href="{{ url_for('manage_education') }}"
+                class="{% if request.endpoint in ['manage_education', 'edit_education'] %}active{% endif %}"
+            >
+                <span class="nav-icon">▤</span>
+                Education
+            </a>
+
+            <a
+                href="{{ url_for('manage_certifications') }}"
+                class="{% if request.endpoint in ['manage_certifications', 'edit_certification'] %}active{% endif %}"
+            >
+                <span class="nav-icon">◇</span>
+                Certifications
+            </a>
+
+        </div>
+
+
+        <!-- PORTFOLIO -->
+
+        <div class="nav-section">
+
+            <span class="nav-section-title">
+                PORTFOLIO
+            </span>
+
+            <a
+                href="{{ url_for('manage_resume') }}"
+                class="{% if request.endpoint == 'manage_resume' %}active{% endif %}"
+            >
+                <span class="nav-icon">▱</span>
+                Resume
+            </a>
+
+            <a
+                href="{{ url_for('manage_messages') }}"
+                class="{% if request.endpoint == 'manage_messages' %}active{% endif %}"
+            >
+                <span class="nav-icon">✉</span>
+                Messages
+            </a>
+
+            <a
+                href="{{ url_for('site_settings') }}"
+                class="{% if request.endpoint == 'site_settings' %}active{% endif %}"
+            >
+                <span class="nav-icon">⚙</span>
+                Site Settings
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         SIDEBAR BOTTOM
+    ========================== -->
+
+    <div class="admin-sidebar-bottom">
+
+        <a
+            href="{{ url_for('change_password') }}"
+            class="{% if request.endpoint == 'change_password' %}active{% endif %}"
+        >
+            <span class="nav-icon">⚿</span>
+            Change Password
+        </a>
+
+
+        <a
+            href="{{ url_for('home') }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="sidebar-portfolio-link"
+        >
+            <span class="nav-icon">↗</span>
+            View Portfolio
+        </a>
+
+
+        <a
+            href="{{ url_for('admin_logout') }}"
+            class="sidebar-logout"
+        >
+            <span class="nav-icon">⇥</span>
+            Logout
+        </a>
+
+    </div>
+
+</aside>

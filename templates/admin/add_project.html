@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Project | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+
+        <div class="admin-logo">
+            <div class="admin-logo-mark">A</div>
+
+            <div>
+                <h2>Abdul Adhil</h2>
+                <p>Portfolio CMS</p>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+
+            <div class="nav-section">
+                <span class="nav-section-title">MAIN</span>
+
+                <a href="{{ url_for('admin_dashboard') }}">
+                    <span class="nav-icon">⌂</span>
+                    Dashboard
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-section-title">CONTENT</span>
+
+                <a href="{{ url_for('add_project') }}" class="active">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a href="{{ url_for('manage_skills') }}">
+                    <span class="nav-icon">◆</span>
+                    Skills
+                </a>
+
+                <a href="{{ url_for('manage_experience') }}">
+                    <span class="nav-icon">◈</span>
+                    Experience
+                </a>
+
+                <a href="{{ url_for('manage_education') }}">
+                    <span class="nav-icon">▤</span>
+                    Education
+                </a>
+
+                <a href="{{ url_for('manage_certifications') }}">
+                    <span class="nav-icon">◇</span>
+                    Certifications
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-section-title">PORTFOLIO</span>
+
+                <a href="{{ url_for('manage_resume') }}">
+                    <span class="nav-icon">▱</span>
+                    Resume
+                </a>
+
+                <a href="{{ url_for('manage_messages') }}">
+                    <span class="nav-icon">✉</span>
+                    Messages
+                </a>
+
+                <a href="{{ url_for('site_settings') }}">
+                    <span class="nav-icon">⚙</span>
+                    Site Settings
+                </a>
+            </div>
+
+        </nav>
+
+        <div class="admin-sidebar-bottom">
+
+            <a
+                href="{{ url_for('home') }}"
+                target="_blank"
+                class="sidebar-portfolio-link"
+            >
+                <span class="nav-icon">↗</span>
+                View Portfolio
+            </a>
+
+            <a
+                href="{{ url_for('admin_logout') }}"
+                class="sidebar-logout"
+            >
+                <span class="nav-icon">⇥</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+        <header class="admin-topbar">
+
+            <div>
+                <p class="admin-eyebrow">PROJECTS</p>
+
+                <h1>Add Project</h1>
+
+                <p class="admin-subtitle">
+                    Add a new project to your portfolio.
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('admin_dashboard') }}"
+                class="admin-view-btn"
+            >
+                ← Dashboard
+            </a>
+
+        </header>
+
+
+        <!-- PROJECT FORM -->
+
+        <section class="project-form-card">
+
+            <div class="project-form-header">
+
+                <div>
+                    <p class="admin-eyebrow">NEW PROJECT</p>
+
+                    <h2>Project Information</h2>
+
+                    <p>
+                        Provide the details that will appear on your portfolio.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('add_project') }}"
+                method="POST"
+                enctype="multipart/form-data"
+                class="project-form"
+            >
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                >
+
+                <div class="project-form-grid">
+
+                    <!-- TITLE -->
+
+                    <div class="project-form-group full-width">
+
+                        <label for="title">
+                            Project Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="e.g. JARVIS — Local AI Voice Assistant"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="project-form-group full-width">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="7"
+                            placeholder="Describe what you built, the problem it solves, and the main functionality."
+                            required
+                        ></textarea>
+
+                        <span class="form-help">
+                            Keep the description clear and focused on the project's purpose and implementation.
+                        </span>
+
+                    </div>
+                    <!-- PROJECT FEATURES -->
+                    <div class="project-form-group full-width">
+
+                        <label for="features">
+                            Project Features
+                        </label>
+
+                        <textarea
+                            id="features"
+                            name="features"
+                            rows="6"
+                            placeholder="Voice input&#10;Speech-to-text&#10;Local AI responses&#10;Persistent memory"
+                        ></textarea>
+
+                        <span class="form-help">
+                            Enter one feature per line.
+                        </span>
+
+                    </div>
+                    <!-- PROJECT IMAGE -->
+                    <div class="project-form-group full-width">
+
+                        <label for="image">
+                            Project Image
+                        </label>
+
+                        <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept="image/png,image/jpeg,image/webp"
+                        >
+
+                        <span class="form-help">
+                            Upload a project screenshot or preview image.
+                            PNG, JPG, and WebP are supported.
+                        </span>
+
+                    </div>
+
+                    <!-- TECHNOLOGIES -->
+
+                    <div class="project-form-group">
+
+                        <label for="technologies">
+                            Technologies
+                        </label>
+
+                        <input
+                            type="text"
+                            id="technologies"
+                            name="technologies"
+                            placeholder="Python, Flask, SQLite, JavaScript"
+                        >
+
+                        <span class="form-help">
+                            Separate technologies with commas.
+                        </span>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="project-form-group">
+
+                        <label for="status">
+                            Project Status
+                        </label>
+
+                        <select
+                            id="status"
+                            name="status"
+                        >
+
+                            <option value="Completed">
+                                Completed
+                            </option>
+
+                            <option value="In Progress">
+                                In Progress
+                            </option>
+
+                            <option value="Planned">
+                                Planned
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="project-form-group">
+                        <label for="category">Category</label>
+
+                        <select id="category" name="category">
+                            <option value="AI / ML">AI / ML</option>
+                            <option value="Python">Python</option>
+                            <option value="Web">Web</option>
+                            <option value="IoT / Embedded">IoT / Embedded</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <span class="form-help">
+                            Select the main category for this project.
+                        </span>
+                    </div>
+                    <!-- GITHUB -->
+
+                    <div class="project-form-group">
+
+                        <label for="github_url">
+                            GitHub URL
+                        </label>
+
+                        <input
+                            type="url"
+                            id="github_url"
+                            name="github_url"
+                            placeholder="https://github.com/..."
+                        >
+
+                    </div>
+
+
+                    <!-- DEMO -->
+
+                    <div class="project-form-group">
+
+                        <label for="demo_url">
+                            Live Demo URL
+                        </label>
+
+                        <input
+                            type="url"
+                            id="demo_url"
+                            name="demo_url"
+                            placeholder="https://..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORM ACTIONS -->
+
+                <div class="project-form-actions">
+
+                    <a
+                        href="{{ url_for('admin_dashboard') }}"
+                        class="admin-cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="admin-primary-btn"
+                    >
+                        Add Project
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <footer class="admin-footer">
+            <span>Portfolio CMS</span>
+            <span>© 2026 Abdul Adhil</span>
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>

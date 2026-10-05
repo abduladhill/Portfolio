@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Certification | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+
+            <div class="admin-logo">
+
+                <div class="admin-logo-mark">
+                    A
+                </div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+
+            </div>
+
+
+            <nav class="admin-nav">
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        MAIN
+                    </div>
+
+                    <a href="{{ url_for('admin_dashboard') }}">
+                        Dashboard
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        CONTENT
+                    </div>
+
+                    <a href="{{ url_for('manage_projects') }}">
+                        Projects
+                    </a>
+
+                    <a href="{{ url_for('manage_skills') }}">
+                        Skills
+                    </a>
+
+                    <a href="{{ url_for('manage_experience') }}">
+                        Experience
+                    </a>
+
+                    <a href="{{ url_for('manage_education') }}">
+                        Education
+                    </a>
+
+                    <a href="{{ url_for('manage_certifications') }}"
+                       class="active">
+                        Certifications
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        PORTFOLIO
+                    </div>
+
+                    <a href="{{ url_for('manage_resume') }}">
+                        Resume
+                    </a>
+
+                    <a href="{{ url_for('manage_messages') }}">
+                        Messages
+                    </a>
+
+                    <a href="{{ url_for('site_settings') }}">
+                        Site Settings
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <div class="admin-sidebar-bottom">
+
+                <a href="/"
+                   class="sidebar-portfolio-link">
+                    View Portfolio
+                </a>
+
+                <a href="{{ url_for('admin_logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        CERTIFICATIONS
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Update an existing certification
+                    </div>
+
+                </div>
+
+
+                <a href="{{ url_for('manage_certifications') }}"
+                   class="admin-view-btn">
+                    ← Back to Certifications
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="edit-certification-page-header">
+
+                    <div>
+
+                        <h1>Edit Certification</h1>
+
+                        <p>
+                            Update the certification information
+                            displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORM CARD -->
+                <div class="edit-certification-card">
+
+                    <div class="edit-certification-card-header">
+
+                        <div>
+
+                            <h2>Certification Details</h2>
+
+                            <p>
+                                Modify the certification name,
+                                issuer, date or credential information.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        action="{{ url_for('edit_certification', certification_id=certification['id']) }}"
+                        method="POST"
+                        class="edit-certification-form"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+                        <div class="edit-certification-grid">
+
+                            <!-- CERTIFICATION NAME -->
+
+                            <div class="edit-certification-group">
+
+                                <label for="name">
+                                    Certification Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value="{{ certification['name'] }}"
+                                    placeholder="Python for Data Science"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- ISSUER -->
+
+                            <div class="edit-certification-group">
+
+                                <label for="issuer">
+                                    Issuing Organization
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="issuer"
+                                    name="issuer"
+                                    value="{{ certification['issuer'] }}"
+                                    placeholder="NPTEL"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- ISSUE DATE -->
+
+                            <div class="edit-certification-group">
+
+                                <label for="issue_date">
+                                    Issue Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="issue_date"
+                                    name="issue_date"
+                                    value="{{ certification['issue_date'] or '' }}"
+                                    placeholder="2025"
+                                >
+
+                            </div>
+
+
+                            <!-- CREDENTIAL URL -->
+
+                            <div class="edit-certification-group">
+
+                                <label for="credential_url">
+                                    Credential URL
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="credential_url"
+                                    name="credential_url"
+                                    value="{{ certification['credential_url'] or '' }}"
+                                    placeholder="https://..."
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="edit-certification-group edit-certification-full">
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    rows="6"
+                                    placeholder="Add details about this certification..."
+                                >{{ certification['description'] or '' }}</textarea>
+
+                                <span class="edit-certification-help">
+                                    Add relevant details about what the
+                                    certification covers.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="edit-certification-actions">
+
+                            <button
+                                type="submit"
+                                class="admin-primary-btn"
+                            >
+                                Save Changes
+                            </button>
+
+
+                            <a
+                                href="{{ url_for('manage_certifications') }}"
+                                class="admin-cancel-btn"
+                            >
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Experience | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+
+            <div class="admin-logo">
+
+                <div class="admin-logo-mark">
+                    A
+                </div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+
+            </div>
+
+
+            <nav class="admin-nav">
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        MAIN
+                    </div>
+
+                    <a href="{{ url_for('admin_dashboard') }}">
+                        Dashboard
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        CONTENT
+                    </div>
+
+                    <a href="{{ url_for('manage_projects') }}">
+                        Projects
+                    </a>
+
+                    <a href="{{ url_for('manage_skills') }}">
+                        Skills
+                    </a>
+
+                    <a href="{{ url_for('manage_experience') }}"
+                       class="active">
+                        Experience
+                    </a>
+
+                    <a href="{{ url_for('manage_education') }}">
+                        Education
+                    </a>
+
+                    <a href="{{ url_for('manage_certifications') }}">
+                        Certifications
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        PORTFOLIO
+                    </div>
+
+                    <a href="{{ url_for('manage_resume') }}">
+                        Resume
+                    </a>
+
+                    <a href="{{ url_for('manage_messages') }}">
+                        Messages
+                    </a>
+
+                    <a href="{{ url_for('site_settings') }}">
+                        Site Settings
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <div class="admin-sidebar-bottom">
+
+                <a href="/"
+                   class="sidebar-portfolio-link">
+                    View Portfolio
+                </a>
+
+                <a href="{{ url_for('admin_logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        EXPERIENCE
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Update an existing experience
+                    </div>
+
+                </div>
+
+
+                <a href="{{ url_for('manage_experience') }}"
+                   class="admin-view-btn">
+                    ← Back to Experience
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="edit-experience-page-header">
+
+                    <div>
+
+                        <h1>Edit Experience</h1>
+
+                        <p>
+                            Update the professional experience
+                            displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% if error %}
+
+                    <div class="experience-alert experience-error">
+                        {{ error }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- FORM CARD -->
+                <div class="edit-experience-card">
+
+                    <div class="edit-experience-card-header">
+
+                        <div>
+
+                            <h2>Experience Information</h2>
+
+                            <p>
+                                Modify the role, company, duration,
+                                location or description.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form method="POST"
+                          class="edit-experience-form">
+
+                          <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+                        <div class="edit-experience-grid">
+
+                            <!-- ROLE -->
+
+                            <div class="edit-experience-group">
+
+                                <label for="role">
+                                    Role
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="role"
+                                    name="role"
+                                    value="{{ experience['role'] }}"
+                                    placeholder="e.g. AI/ML Intern"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- COMPANY -->
+
+                            <div class="edit-experience-group">
+
+                                <label for="company">
+                                    Company
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="company"
+                                    name="company"
+                                    value="{{ experience['company'] }}"
+                                    placeholder="e.g. Linnk Academy India"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+
+                            <div class="edit-experience-group">
+
+                                <label for="location">
+                                    Location
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="location"
+                                    name="location"
+                                    value="{{ experience['location'] or '' }}"
+                                    placeholder="e.g. Kochi"
+                                >
+
+                            </div>
+
+
+                            <!-- START DATE -->
+
+                            <div class="edit-experience-group">
+
+                                <label for="start_date">
+                                    Start Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="start_date"
+                                    name="start_date"
+                                    value="{{ experience['start_date'] or '' }}"
+                                    placeholder="e.g. June 2026"
+                                >
+
+                            </div>
+
+
+                            <!-- END DATE -->
+
+                            <div class="edit-experience-group">
+
+                                <label for="end_date">
+                                    End Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="end_date"
+                                    name="end_date"
+                                    value="{{ experience['end_date'] or '' }}"
+                                    placeholder="e.g. Present"
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="edit-experience-group edit-experience-full">
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    rows="7"
+                                    placeholder="Describe your responsibilities and work..."
+                                >{{ experience['description'] or '' }}</textarea>
+
+                                <span class="edit-experience-help">
+                                    Describe your responsibilities,
+                                    technologies used and key contributions.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="edit-experience-actions">
+
+                            <button
+                                type="submit"
+                                class="admin-primary-btn"
+                            >
+                                Save Changes
+                            </button>
+
+
+                            <a
+                                href="{{ url_for('manage_experience') }}"
+                                class="admin-cancel-btn"
+                            >
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

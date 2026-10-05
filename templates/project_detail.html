@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ project["title"] }} | {{ settings["name"] }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="project-detail-page">
+
+        <a href="{{ url_for('home') }}#projects"
+           class="project-detail-back">
+            ← Back to Projects
+        </a>
+
+        {% if project["image_url"] %}
+            <div class="project-detail-image">
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename=project['image_url'].replace('/images/', 'images/')
+                    ) }}"
+                    alt="{{ project['title'] }} project preview"
+                >
+            </div>
+        {% endif %}
+
+        <p class="section-label">
+            PROJECT
+        </p>
+
+        <div class="project-detail-meta">
+
+            {% if project["status"] %}
+                <div class="project-meta-item">
+                    <span class="project-meta-label">STATUS</span>
+
+                    <span class="project-meta-value">
+                        <span class="status-dot"></span>
+                        {{ project["status"] }}
+                    </span>
+                </div>
+            {% endif %}
+
+            <div class="project-meta-item">
+
+                <span class="project-meta-label">
+                    TYPE
+                </span>
+
+                <span class="project-meta-value">
+                    AI / Voice Assistant
+                </span>
+
+            </div>
+
+        </div>
+
+        <h1>
+            {{ project["title"] }}
+        </h1> 
+
+        <div class="project-detail-description">
+            <p>
+                {{ project["description"] }}
+            </p>
+        </div>
+
+        {% if project["technologies"] %}
+
+            <div class="project-detail-technologies">
+
+                <h2>
+                    Technologies
+                </h2>
+
+                <div class="technology-list">
+
+                    {% for technology in project["technologies"].split(",") %}
+
+                        <span>
+                            {{ technology.strip() }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+            
+        {% endif %}
+        {% if project["features"] %}
+
+            <div class="project-detail-features">
+
+                <h2>
+                    Features
+                </h2>
+
+                <ul>
+                    {% for feature in project["features"].splitlines() %}
+
+                        {% if feature.strip() %}
+                            <li>
+                                {{ feature.strip() }}
+                            </li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        {% endif %}
+        <div class="project-detail-links">
+
+            {% if project["github_url"] %}
+                <a
+                    href="{{ project['github_url'] }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub ↗
+                </a>
+            {% endif %}
+
+            {% if project["demo_url"] %}
+                <a
+                    href="{{ project['demo_url'] }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Live Demo ↗
+                </a>
+            {% endif %}
+
+        </div>
+        <div class="project-detail-navigation">
+
+            {% if previous_project %}
+                <a
+                    href="{{ url_for('project_detail', project_id=previous_project['id']) }}"
+                    class="project-nav-link"
+                >
+                    <span>←</span>
+                    <span>{{ previous_project["title"] }}</span>
+                </a>
+            {% else %}
+                <a
+                    href="{{ url_for('home') }}#projects"
+                    class="project-nav-link"
+                >
+                    <span>←</span>
+                    <span>Back to Projects</span>
+                </a>
+            {% endif %}
+
+
+            {% if next_project %}
+                <a
+                    href="{{ url_for('project_detail', project_id=next_project['id']) }}"
+                    class="project-nav-link"
+                >
+                    <span>{{ next_project["title"] }}</span>
+                    <span>→</span>
+                </a>
+            {% else %}
+                <a
+                    href="{{ url_for('home') }}#projects"
+                    class="project-nav-link"
+                >
+                    <span>View All Projects</span>
+                    <span>→</span>
+                </a>
+            {% endif %}
+
+        </div>
+    </main>
+
+</body>
+
+</html>

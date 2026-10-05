@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Education | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        {% include "admin/_sidebar.html" %}
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <div class="admin-mobile-header">
+
+                <div class="admin-mobile-brand">
+                    <div class="admin-logo-mark">A</div>
+
+                    <div>
+                        <strong>Portfolio CMS</strong>
+                        <span>Admin Panel</span>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="admin-mobile-menu-button"
+                    id="adminMobileMenuButton"
+                    aria-label="Open admin navigation"
+                    aria-expanded="false"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+            </div>
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        EDUCATION
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Manage your educational background
+                    </div>
+
+                </div>
+
+
+                <a href="/"
+                   target="_blank"
+                   class="admin-view-btn">
+                    View Portfolio ↗
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="education-page-header">
+
+                    <div>
+
+                        <h1>Manage Education</h1>
+
+                        <p>
+                            Add and manage the educational background
+                            displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADD EDUCATION -->
+
+                <div class="education-form-card">
+
+                    <div class="education-form-header">
+
+                        <div>
+
+                            <h2>Add New Education</h2>
+
+                            <p>
+                                Add your degree, institution, duration
+                                and relevant details.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        action="{{ url_for('add_education') }}"
+                        method="POST"
+                        class="education-form"
+                    >
+                        
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+                        <div class="education-form-grid">
+
+                            <!-- DEGREE -->
+
+                            <div class="education-form-group">
+
+                                <label for="degree">
+                                    Degree / Qualification
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="degree"
+                                    name="degree"
+                                    placeholder="B.Tech – Computer Science and Engineering"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- INSTITUTION -->
+
+                            <div class="education-form-group">
+
+                                <label for="institution">
+                                    Institution
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="institution"
+                                    name="institution"
+                                    placeholder="TKM Institute of Technology"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+
+                            <div class="education-form-group">
+
+                                <label for="location">
+                                    Location
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="location"
+                                    name="location"
+                                    placeholder="Kollam, Kerala"
+                                >
+
+                            </div>
+
+
+                            <!-- START DATE -->
+
+                            <div class="education-form-group">
+
+                                <label for="start_date">
+                                    Start Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="start_date"
+                                    name="start_date"
+                                    placeholder="2022"
+                                >
+
+                            </div>
+
+
+                            <!-- END DATE -->
+
+                            <div class="education-form-group">
+
+                                <label for="end_date">
+                                    End Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="end_date"
+                                    name="end_date"
+                                    placeholder="2026"
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="education-form-group education-full-width">
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    rows="5"
+                                    placeholder="Add relevant details about your education..."
+                                ></textarea>
+
+                                <span class="education-form-help">
+                                    Add relevant achievements, coursework,
+                                    specialization or other details.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTION -->
+
+                        <div class="education-form-actions">
+
+                            <button
+                                type="submit"
+                                class="admin-primary-btn"
+                            >
+                                + Add Education
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- EDUCATION LIST -->
+
+                <div class="education-list-header">
+
+                    <div>
+
+                        <h2>Education History</h2>
+
+                        <p>
+                            Education currently displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+
+                    <span class="education-count">
+                        {{ education|length }} entries
+                    </span>
+
+                </div>
+
+
+                {% if education %}
+
+                    <div class="education-management-grid">
+
+                        {% for item in education %}
+
+                            <article class="education-management-card">
+
+                                <div class="education-card-top">
+
+                                    <div>
+
+                                        <h3>
+                                            {{ item["degree"] }}
+                                        </h3>
+
+                                        <div class="education-institution">
+                                            {{ item["institution"] }}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="education-meta">
+
+                                    {% if item["location"] %}
+
+                                        <span>
+                                            {{ item["location"] }}
+                                        </span>
+
+                                    {% endif %}
+
+
+                                    {% if item["start_date"] or item["end_date"] %}
+
+                                        <span>
+
+                                            {{ item["start_date"] or "" }}
+
+                                            {% if item["start_date"] and item["end_date"] %}
+                                                –
+                                            {% endif %}
+
+                                            {{ item["end_date"] or "" }}
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                {% if item["description"] %}
+
+                                    <p class="education-description">
+                                        {{ item["description"] }}
+                                    </p>
+
+                                {% endif %}
+
+
+                                <div class="education-card-actions">
+
+                                    <a
+                                        href="{{ url_for('edit_education', education_id=item['id']) }}"
+                                        class="education-edit-btn"
+                                    >
+                                        Edit
+                                    </a>
+
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('delete_education', education_id=item['id']) }}"
+                                        style="display: inline;"
+                                    >
+                                        <input
+                                            type="hidden"
+                                            name="csrf_token"
+                                            value="{{ csrf_token() }}"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="project-delete-btn"
+                                            onclick="return confirm('Are you sure you want to delete this education entry?');"
+                                        >
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="education-empty-state">
+
+                        <div class="education-empty-icon">
+                            +
+                        </div>
+
+                        <h3>No education entries yet</h3>
+
+                        <p>
+                            Add your first education entry using
+                            the form above.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+</body>
+
+</html>

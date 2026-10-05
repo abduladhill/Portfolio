@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/_sidebar.html" %}
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="admin-main">
+        <div class="admin-mobile-header">
+
+            <div class="admin-mobile-brand">
+                <div class="admin-logo-mark">A</div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="admin-mobile-menu-button"
+                id="adminMobileMenuButton"
+                aria-label="Open admin navigation"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+        <!-- TOP BAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+                <p class="admin-eyebrow">PORTFOLIO CMS</p>
+
+                <h1>Dashboard</h1>
+
+                <p class="admin-subtitle">
+                    Manage your portfolio content from one place.
+                </p>
+            </div>
+
+
+            <a
+                href="{{ url_for('home') }}"
+                target="_blank"
+                class="admin-view-btn"
+            >
+                View Portfolio ↗
+            </a>
+
+        </header>
+
+
+        <!-- STAT CARDS -->
+
+        <section class="admin-stats">
+
+            <div class="admin-stat-card">
+
+                <div class="stat-icon">
+                    ◼
+                </div>
+
+                <div>
+                    <p>Projects</p>
+
+                    <h2>{{ projects|length }}</h2>
+
+                    <span>Portfolio projects</span>
+                </div>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="stat-icon">
+                    ◆
+                </div>
+
+                <div>
+                    <p>Skills</p>
+
+                    <h2>{{ skills|length }}</h2>
+
+                    <span>Technical skills</span>
+                </div>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="stat-icon">
+                    ◈
+                </div>
+
+                <div>
+                    <p>Experience</p>
+
+                    <h2>{{ experiences|length }}</h2>
+
+                    <span>Experience entries</span>
+                </div>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="stat-icon">
+                    ✉
+                </div>
+
+                <div>
+                    <p>Messages</p>
+
+                    <h2>{{ messages|length if messages is defined else 0 }}</h2>
+
+                    <span>Contact submissions</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="admin-section">
+
+            <div class="admin-section-header">
+
+                <div>
+                    <p class="admin-eyebrow">QUICK ACTIONS</p>
+                    <h2>Manage Content</h2>
+                </div>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+                <a
+                    href="{{ url_for('add_project') }}"
+                    class="quick-action-card"
+                >
+                    <div class="quick-action-icon">+</div>
+
+                    <div>
+                        <h3>Add Project</h3>
+                        <p>Create a new portfolio project.</p>
+                    </div>
+
+                    <span class="quick-action-arrow">→</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('manage_skills') }}"
+                    class="quick-action-card"
+                >
+                    <div class="quick-action-icon">◆</div>
+
+                    <div>
+                        <h3>Manage Skills</h3>
+                        <p>Update your technical skills.</p>
+                    </div>
+
+                    <span class="quick-action-arrow">→</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('manage_experience') }}"
+                    class="quick-action-card"
+                >
+                    <div class="quick-action-icon">◈</div>
+
+                    <div>
+                        <h3>Experience</h3>
+                        <p>Manage your work experience.</p>
+                    </div>
+
+                    <span class="quick-action-arrow">→</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('manage_messages') }}"
+                    class="quick-action-card"
+                >
+                    <div class="quick-action-icon">✉</div>
+
+                    <div>
+                        <h3>Messages</h3>
+                        <p>View visitor messages.</p>
+                    </div>
+
+                    <span class="quick-action-arrow">→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- RECENT PROJECTS -->
+
+        <section class="admin-section">
+
+            <div class="admin-section-header">
+
+                <div>
+                    <p class="admin-eyebrow">PORTFOLIO</p>
+                    <h2>Recent Projects</h2>
+                </div>
+
+                <a
+                    href="{{ url_for('add_project') }}"
+                    class="admin-small-link"
+                >
+                    Add Project →
+                </a>
+
+            </div>
+
+
+            {% if projects %}
+
+            <div class="dashboard-projects">
+
+                {% for project in projects[:5] %}
+
+                <div class="dashboard-project-card">
+
+                    <div class="dashboard-project-top">
+
+                        <div class="dashboard-project-meta">
+
+                            <span class="project-status">
+                                {{ project["status"] or "Completed" }}
+                            </span>
+
+                            {% if project["category"] %}
+                                <span class="admin-project-category">
+                                    {{ project["category"] }}
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+                        <span class="project-id">
+                            #{{ project["id"] }}
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        {{ project["title"] }}
+                    </h3>
+
+
+                    <p>
+                        {{ project["description"][:140] }}
+                        {% if project["description"]|length > 140 %}
+                            ...
+                        {% endif %}
+                    </p>
+
+
+                    <div class="dashboard-project-footer">
+
+                        <span>
+                            {{ project["technologies"] or "No technologies listed" }}
+                        </span>
+
+                        <a
+                            href="{{ url_for('edit_project', project_id=project['id']) }}"
+                        >
+                            Edit →
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+                <div class="admin-empty-state">
+                    <div class="empty-icon">◼</div>
+
+                    <h3>No projects yet</h3>
+
+                    <p>
+                        Add your first project to start building your portfolio.
+                    </p>
+
+                    <a
+                        href="{{ url_for('add_project') }}"
+                        class="admin-btn"
+                    >
+                        Add Your First Project
+                    </a>
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="admin-footer">
+            <span>Portfolio CMS</span>
+            <span>© 2026 Abdul Adhil</span>
+        </footer>
+
+    </main>
+
+</div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+</body>
+</html>

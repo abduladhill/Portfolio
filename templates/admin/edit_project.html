@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Project | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+
+            <div class="admin-logo">
+                <div class="admin-logo-mark">A</div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+
+            <nav class="admin-nav">
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        MAIN
+                    </div>
+
+                    <a href="{{ url_for('admin_dashboard') }}">
+                        Dashboard
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        CONTENT
+                    </div>
+
+                    <a href="{{ url_for('manage_projects') }}" class="active">
+                        Projects
+                    </a>
+
+                    <a href="{{ url_for('manage_skills') }}">
+                        Skills
+                    </a>
+
+                    <a href="{{ url_for('manage_experience') }}">
+                        Experience
+                    </a>
+
+                    <a href="{{ url_for('manage_education') }}">
+                        Education
+                    </a>
+
+                    <a href="{{ url_for('manage_certifications') }}">
+                        Certifications
+                    </a>
+
+                </div>
+
+
+                <div class="nav-section">
+
+                    <div class="nav-section-title">
+                        PORTFOLIO
+                    </div>
+
+                    <a href="{{ url_for('manage_resume') }}">
+                        Resume
+                    </a>
+
+                    <a href="{{ url_for('manage_messages') }}">
+                        Messages
+                    </a>
+
+                    <a href="{{ url_for('site_settings') }}">
+                        Site Settings
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <div class="admin-sidebar-bottom">
+
+                <a href="/" class="sidebar-portfolio-link">
+                    View Portfolio
+                </a>
+
+               <a href="{{ url_for('admin_logout') }}" class="sidebar-logout-link">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+                    <div class="admin-eyebrow">
+                        PROJECTS
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Edit existing project
+                    </div>
+                </div>
+
+                <a href="{{ url_for('manage_projects') }}"
+                   class="admin-view-btn">
+                    ← Back to Projects
+                </a>
+
+            </div>
+
+
+            <!-- FORM SECTION -->
+            <section class="admin-section">
+
+                <div class="project-form-card">
+
+                    <div class="project-form-header">
+
+                        <div>
+                            <h2>Edit Project</h2>
+
+                            <p>
+                                Update the project information displayed
+                                on your portfolio.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    {% if error %}
+
+                        <div class="form-error">
+                            {{ error }}
+                        </div>
+
+                    {% endif %}
+
+
+                    <form
+                        action="{{ url_for('edit_project', project_id=project['id']) }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                        class="project-form"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+                        <div class="project-form-grid">
+
+                            <!-- PROJECT TITLE -->
+                            <div class="project-form-group full-width">
+
+                                <label for="title">
+                                    Project Title
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    value="{{ project['title'] }}"
+                                    placeholder="Enter project title"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+                            <div class="project-form-group full-width">
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    rows="6"
+                                    placeholder="Describe your project..."
+                                    required
+                                >{{ project['description'] }}</textarea>
+
+                                <span class="form-help">
+                                    Keep the description clear and focused
+                                    on what the project does.
+                                </span>
+
+                            </div>
+                            <!-- PROJECT FEATURES -->
+                            <div class="project-form-group full-width">
+
+                                <label for="features">
+                                    Project Features
+                                </label>
+
+                                <textarea
+                                    id="features"
+                                    name="features"
+                                    rows="6"
+                                    placeholder="Voice input&#10;Speech-to-text&#10;Local AI responses&#10;Persistent memory"
+                                >{{ project["features"] or "" }}</textarea>
+
+                                <span class="form-help">
+                                    Enter one feature per line.
+                                </span>
+
+                            </div>
+                            <!-- PROJECT IMAGE -->
+                            <div class="project-form-group full-width">
+
+                                <label for="image">
+                                    Project Image
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="image"
+                                    name="image"
+                                    accept="image/png,image/jpeg,image/webp"
+                                >
+
+                                {% if project["image_url"] %}
+                                    <span class="form-help">
+                                        Current image:
+                                        {{ project["image_url"].split("/")[-1] }}
+                                    </span>
+                                {% else %}
+                                    <span class="form-help">
+                                        No project image uploaded.
+                                        PNG, JPG, JPEG, and WebP are supported.
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                            <!-- TECHNOLOGIES -->
+                            <div class="project-form-group full-width">
+
+                                <label for="technologies">
+                                    Technologies
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="technologies"
+                                    name="technologies"
+                                    value="{{ project['technologies'] or '' }}"
+                                    placeholder="Python, Flask, SQLite, HTML, CSS"
+                                >
+
+                                <span class="form-help">
+                                    Separate technologies with commas.
+                                </span>
+
+                            </div>
+
+
+                            <!-- GITHUB -->
+                            <div class="project-form-group">
+
+                                <label for="github_url">
+                                    GitHub URL
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="github_url"
+                                    name="github_url"
+                                    value="{{ project['github_url'] or '' }}"
+                                    placeholder="https://github.com/username/project"
+                                >
+
+                            </div>
+
+
+                            <!-- LIVE DEMO -->
+                            <div class="project-form-group">
+
+                                <label for="demo_url">
+                                    Live Demo URL
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="demo_url"
+                                    name="demo_url"
+                                    value="{{ project['demo_url'] or '' }}"
+                                    placeholder="https://example.com"
+                                >
+
+                            </div>
+
+
+                            <!-- STATUS -->
+                            <div class="project-form-group">
+
+                                <label for="status">
+                                    Status
+                                </label>
+
+                                <select id="status"
+                                        name="status">
+
+                                    <option value="Completed"
+                                        {% if project['status'] == 'Completed' %}
+                                            selected
+                                        {% endif %}>
+                                        Completed
+                                    </option>
+
+                                    <option value="In Progress"
+                                        {% if project['status'] == 'In Progress' %}
+                                            selected
+                                        {% endif %}>
+                                        In Progress
+                                    </option>
+
+                                    <option value="Planned"
+                                        {% if project['status'] == 'Planned' %}
+                                            selected
+                                        {% endif %}>
+                                        Planned
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="project-form-group">
+                            <label for="category">Category</label>
+
+                            <select id="category" name="category">
+                                <option value="AI / ML"
+                                    {% if project["category"] == "AI / ML" %}selected{% endif %}>
+                                    AI / ML
+                                </option>
+
+                                <option value="Python"
+                                    {% if project["category"] == "Python" %}selected{% endif %}>
+                                    Python
+                                </option>
+
+                                <option value="Web"
+                                    {% if project["category"] == "Web" %}selected{% endif %}>
+                                    Web
+                                </option>
+
+                                <option value="IoT / Embedded"
+                                    {% if project["category"] == "IoT / Embedded" %}selected{% endif %}>
+                                    IoT / Embedded
+                                </option>
+
+                                <option value="Other"
+                                    {% if project["category"] == "Other" %}selected{% endif %}>
+                                    Other
+                                </option>
+                            </select>
+
+                            <span class="form-help">
+                                Select the main category for this project.
+                            </span>
+                        </div>
+                        <!-- ACTIONS -->
+                        <div class="project-form-actions">
+
+                            <button type="submit"
+                                    class="admin-primary-btn">
+                                Update Project
+                            </button>
+
+                            <a href="{{ url_for('manage_projects') }}"
+                               class="admin-cancel-btn">
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

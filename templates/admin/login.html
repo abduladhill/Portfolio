@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="login-body">
+
+    <main class="login-page">
+
+        <div class="login-card">
+
+            <!-- BRAND -->
+
+            <div class="login-brand">
+
+                <div class="login-logo">
+                    P
+                </div>
+
+                <div>
+                    <h1>Portfolio</h1>
+                    <p>Admin Panel</p>
+                </div>
+
+            </div>
+
+
+            <!-- HEADER -->
+
+            <div class="login-header">
+
+                <span class="login-eyebrow">
+                    ADMIN ACCESS
+                </span>
+
+                <h2>
+                    Welcome back
+                </h2>
+
+                <p>
+                    Sign in to manage your portfolio.
+                </p>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+            <div class="login-error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                method="POST"
+                class="login-form"
+            >
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+>
+                <div class="login-form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="login-form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-submit-btn"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="login-footer">
+                Portfolio CMS
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

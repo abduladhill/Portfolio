@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Experience | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        {% include "admin/_sidebar.html" %}
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <div class="admin-mobile-header">
+
+                <div class="admin-mobile-brand">
+                    <div class="admin-logo-mark">A</div>
+
+                    <div>
+                        <strong>Portfolio CMS</strong>
+                        <span>Admin Panel</span>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="admin-mobile-menu-button"
+                    id="adminMobileMenuButton"
+                    aria-label="Open admin navigation"
+                    aria-expanded="false"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+            </div>
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        EXPERIENCE
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Manage your professional experience
+                    </div>
+
+                </div>
+
+
+                <a href="/"
+                   target="_blank"
+                   class="admin-view-btn">
+                    View Portfolio ↗
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="experience-page-header">
+
+                    <div>
+
+                        <h1>Manage Experience</h1>
+
+                        <p>
+                            Add and manage the professional experience
+                            displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALERTS -->
+
+                {% if success %}
+
+                    <div class="experience-alert experience-success">
+                        {{ success }}
+                    </div>
+
+                {% endif %}
+
+
+                {% if error %}
+
+                    <div class="experience-alert experience-error">
+                        {{ error }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- ADD EXPERIENCE -->
+
+                <div class="experience-form-card">
+
+                    <div class="experience-form-header">
+
+                        <div>
+
+                            <h2>Add New Experience</h2>
+
+                            <p>
+                                Add a role, company, duration and
+                                description.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form method="POST"
+                          class="experience-form">
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+                        <div class="experience-form-grid">
+
+                            <!-- ROLE -->
+
+                            <div class="experience-form-group">
+
+                                <label for="role">
+                                    Role
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="role"
+                                    name="role"
+                                    placeholder="e.g. AI/ML Intern"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- COMPANY -->
+
+                            <div class="experience-form-group">
+
+                                <label for="company">
+                                    Company
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="company"
+                                    name="company"
+                                    placeholder="e.g. Linnk Academy India"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+
+                            <div class="experience-form-group">
+
+                                <label for="location">
+                                    Location
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="location"
+                                    name="location"
+                                    placeholder="e.g. Kochi"
+                                >
+
+                            </div>
+
+
+                            <!-- START DATE -->
+
+                            <div class="experience-form-group">
+
+                                <label for="start_date">
+                                    Start Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="start_date"
+                                    name="start_date"
+                                    placeholder="e.g. June 2026"
+                                >
+
+                            </div>
+
+
+                            <!-- END DATE -->
+
+                            <div class="experience-form-group">
+
+                                <label for="end_date">
+                                    End Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="end_date"
+                                    name="end_date"
+                                    placeholder="e.g. Present"
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="experience-form-group full-width">
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    rows="6"
+                                    placeholder="Describe your responsibilities and work..."
+                                ></textarea>
+
+                                <span class="experience-form-help">
+                                    Describe your responsibilities,
+                                    technologies used and key contributions.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="experience-form-actions">
+
+                            <button
+                                type="submit"
+                                class="admin-primary-btn"
+                            >
+                                + Add Experience
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- EXPERIENCE LIST -->
+
+                <div class="experience-list-header">
+
+                    <div>
+
+                        <h2>Your Experience</h2>
+
+                        <p>
+                            Professional experience currently displayed
+                            on your portfolio.
+                        </p>
+
+                    </div>
+
+
+                    <span class="experience-count">
+                        {{ experiences|length }} experience
+                    </span>
+
+                </div>
+
+
+                {% if experiences %}
+
+                    <div class="experience-management-grid">
+
+                        {% for item in experiences %}
+
+                            <article class="experience-management-card">
+
+                                <div class="experience-card-top">
+
+                                    <div>
+
+                                        <h3>
+                                            {{ item["role"] }}
+                                        </h3>
+
+                                        <div class="experience-company">
+                                            {{ item["company"] }}
+                                        </div>
+
+                                    </div>
+
+
+                                    {% if item["end_date"] == "Present" %}
+
+                                        <span class="experience-status">
+                                            Current
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="experience-meta">
+
+                                    {% if item["location"] %}
+                                        <span>
+                                            {{ item["location"] }}
+                                        </span>
+                                    {% endif %}
+
+
+                                    {% if item["start_date"] %}
+
+                                        <span>
+                                            {{ item["start_date"] }}
+
+                                            {% if item["end_date"] %}
+                                                – {{ item["end_date"] }}
+                                            {% endif %}
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                {% if item["description"] %}
+
+                                    <p class="experience-description">
+                                        {{ item["description"] }}
+                                    </p>
+
+                                {% endif %}
+
+
+                                <div class="experience-card-actions">
+
+                                    <a
+                                        href="{{ url_for('edit_experience', experience_id=item['id']) }}"
+                                        class="experience-edit-btn"
+                                    >
+                                        Edit
+                                    </a>
+
+
+                                    <form
+                                        action="{{ url_for('delete_experience', experience_id=item['id']) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Delete this experience?');"
+                                    >
+                                        <input
+                                            type="hidden"
+                                            name="csrf_token"
+                                            value="{{ csrf_token() }}"
+                                        >
+                                        <button
+                                            type="submit"
+                                            class="experience-delete-btn"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="experience-empty-state">
+
+                        <div class="experience-empty-icon">
+                            +
+                        </div>
+
+                        <h3>No experience yet</h3>
+
+                        <p>
+                            Add your first professional experience
+                            using the form above.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skills | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        {% include "admin/_sidebar.html" %}
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <div class="admin-mobile-header">
+
+                <div class="admin-mobile-brand">
+                    <div class="admin-logo-mark">A</div>
+
+                    <div>
+                        <strong>Portfolio CMS</strong>
+                        <span>Admin Panel</span>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="admin-mobile-menu-button"
+                    id="adminMobileMenuButton"
+                    aria-label="Open admin navigation"
+                    aria-expanded="false"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+            </div>
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+                    <div class="admin-eyebrow">
+                        SKILLS
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Manage your technical skills
+                    </div>
+                </div>
+
+                <a href="/"
+                   target="_blank"
+                   class="admin-view-btn">
+                    View Portfolio ↗
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="skills-page-header">
+
+                    <div>
+                        <h1>Manage Skills</h1>
+
+                        <p>
+                            Add and manage the technologies and skills
+                            displayed on your portfolio.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- ALERTS -->
+
+                {% if success %}
+
+                    <div class="skills-alert skills-success">
+                        {{ success }}
+                    </div>
+
+                {% endif %}
+
+
+                {% if error %}
+
+                    <div class="skills-alert skills-error">
+                        {{ error }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- ADD SKILL -->
+
+                <div class="skills-form-card">
+
+                    <div class="skills-form-header">
+
+                        <div>
+                            <h2>Add New Skill</h2>
+
+                            <p>
+                                Add a skill and assign it to a category.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <form method="POST"
+                          class="skills-form">
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <div class="skills-form-grid">
+
+                            <div class="skills-form-group">
+
+                                <label for="name">
+                                    Skill Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="e.g. Python"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="skills-form-group">
+
+                                <label for="category">
+                                    Category
+                                </label>
+
+                                <select
+                                    id="category"
+                                    name="category"
+                                    required
+                                >
+                                    <option value="" disabled selected>
+                                        Select a category
+                                    </option>
+
+                                    <option value="Programming">
+                                        Programming
+                                    </option>
+
+                                    <option value="Machine Learning">
+                                        Machine Learning
+                                    </option>
+
+                                    <option value="Data Science">
+                                        Data Science
+                                    </option>
+
+                                    <option value="Web Development">
+                                        Web Development
+                                    </option>
+
+                                    <option value="Databases">
+                                        Databases
+                                    </option>
+
+                                    <option value="Tools">
+                                        Tools
+                                    </option>
+
+                                    <option value="AI & Embedded Systems">
+                                        AI & Embedded Systems
+                                    </option>
+
+                                    <option value="Other">
+                                        Other
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="skills-form-submit">
+
+                                <button type="submit"
+                                        class="admin-primary-btn">
+                                    + Add Skill
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- SKILLS LIST -->
+
+                <div class="skills-list-header">
+
+                    <div>
+                        <h2>Your Skills</h2>
+
+                        <p>
+                            Skills currently displayed on your portfolio.
+                        </p>
+                    </div>
+
+                    <span class="skills-count">
+                        {{ skills|length }} skills
+                    </span>
+
+                </div>
+
+                <div class="admin-skills-filters">
+
+                    <input
+                        type="search"
+                        id="skillSearch"
+                        class="admin-skill-search"
+                        placeholder="Search skills..."
+                        autocomplete="off"
+                    >
+
+                    <select
+                        id="skillCategoryFilter"
+                        class="admin-skill-category-filter"
+                    >
+                        <option value="all">All Categories</option>
+
+                        {% set skill_categories = [] %}
+
+                        {% for skill in skills %}
+                            {% if skill["category"] and skill["category"] not in skill_categories %}
+                                {% set _ = skill_categories.append(skill["category"]) %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% for category in skill_categories|sort %}
+                            <option value="{{ category }}">
+                                {{ category }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+
+                <div class="skills-table-card">
+
+                    {% if skills %}
+                        <div
+                            id="skillsNoResults"
+                            class="admin-skills-no-results"
+                            hidden
+                        >
+                            <div class="skills-empty-icon">
+                                +
+                            </div>
+
+                            <h3>No skills found</h3>
+
+                            <p>
+                                Try a different search term or category.
+                            </p>
+                        </div>
+                        <div class="skills-table-wrapper">
+
+                            <table class="skills-table">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Skill</th>
+                                        <th>Category</th>
+                                        <th>Actions</th>
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    {% for skill in skills %}
+
+                                        <tr>
+
+                                            <td>
+                                                <div class="skill-table-name">
+                                                    {{ skill["name"] }}
+                                                </div>
+                                            </td>
+
+
+                                            <td>
+
+                                                <span class="skill-category">
+                                                    {{ skill["category"] or "Other" }}
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <div class="skill-actions">
+
+                                                    <a
+                                                        href="{{ url_for('edit_skill', skill_id=skill['id']) }}"
+                                                        class="skill-edit-btn"
+                                                    >
+                                                        Edit
+                                                    </a>
+
+
+                                                    <form
+                                                        action="{{ url_for('delete_skill', skill_id=skill['id']) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Delete this skill?');"
+                                                    >
+                                                        <input
+                                                            type="hidden"
+                                                            name="csrf_token"
+                                                            value="{{ csrf_token() }}"
+                                                        >
+                                                        <button
+                                                            type="submit"
+                                                            class="skill-delete-btn"
+                                                        >
+                                                            Delete
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="skills-empty-state">
+
+                            <div class="skills-empty-icon">
+                                +
+                            </div>
+
+                            <h3>No skills yet</h3>
+
+                            <p>
+                                Add your first skill using the form above.
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+<script>
+    const skillSearch = document.getElementById("skillSearch");
+    const skillCategoryFilter = document.getElementById("skillCategoryFilter");
+    const skillRows = document.querySelectorAll(".skills-table tbody tr");
+    const skillsTableWrapper = document.querySelector(".skills-table-wrapper");
+
+    function filterSkills() {
+
+        const searchText =
+            skillSearch.value.toLowerCase().trim();
+
+        const selectedCategory =
+            skillCategoryFilter.value;
+
+        const noResults =
+            document.getElementById("skillsNoResults");
+
+        let visibleSkills = 0;
+
+        skillRows.forEach(row => {
+
+            const skillName =
+                row.querySelector(".skill-table-name")
+                    ?.textContent.toLowerCase()
+                    .trim() || "";
+
+            const category =
+                row.querySelector(".skill-category")
+                    ?.textContent.trim() || "";
+
+            const matchesSearch =
+                skillName.includes(searchText);
+
+            const matchesCategory =
+                selectedCategory === "all" ||
+                category === selectedCategory;
+
+            const shouldShow =
+                matchesSearch && matchesCategory;
+
+            row.style.display =
+                shouldShow ? "" : "none";
+
+            if (shouldShow) {
+                visibleSkills++;
+            }
+        });
+
+        if (noResults) {
+            noResults.hidden = visibleSkills !== 0;
+        }
+
+        if (skillsTableWrapper) {
+            skillsTableWrapper.style.display =
+                visibleSkills === 0 ? "none" : "";
+        }
+    }
+
+    skillSearch.addEventListener("input", filterSkills);
+
+    skillCategoryFilter.addEventListener(
+        "change",
+        filterSkills
+    );
+</script>
+</body>
+
+</html>

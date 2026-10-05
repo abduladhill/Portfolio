@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Site Settings | Admin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    {% include "admin/_sidebar.html" %}
+
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+        <div class="admin-mobile-header">
+
+            <div class="admin-mobile-brand">
+                <div class="admin-logo-mark">A</div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="admin-mobile-menu-button"
+                id="adminMobileMenuButton"
+                aria-label="Open admin navigation"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+        <!-- TOPBAR -->
+        <div class="admin-topbar">
+
+            <div>
+                <div class="admin-eyebrow">
+                    CONFIGURATION
+                </div>
+
+                <h1>Site Settings</h1>
+
+                <p class="admin-subtitle">
+                    Manage the content and links displayed across your portfolio.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- STATUS MESSAGES -->
+
+        {% if error %}
+
+        <div class="settings-alert settings-alert-error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if success %}
+
+        <div class="settings-alert settings-alert-success">
+            {{ success }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- SETTINGS FORM -->
+
+        <form method="POST" class="settings-form">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <!-- PERSONAL INFORMATION -->
+
+            <section class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div>
+                        <span class="settings-section-label">
+                            PROFILE
+                        </span>
+
+                        <h2>Personal Information</h2>
+
+                        <p>
+                            Basic information displayed on your portfolio.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+                    <div class="settings-grid">
+
+                        <div class="settings-group">
+
+                            <label for="name">
+                                Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="{{ settings['name'] if settings else '' }}"
+                                placeholder="Your name"
+                            >
+
+                            <small>
+                                Your primary portfolio name.
+                            </small>
+
+                        </div>
+
+
+                        <div class="settings-group">
+
+                            <label for="headline">
+                                Headline
+                            </label>
+
+                            <input
+                                type="text"
+                                id="headline"
+                                name="headline"
+                                value="{{ settings['headline'] if settings else '' }}"
+                                placeholder="AI/ML Engineer | Python Developer"
+                            >
+
+                            <small>
+                                Short professional headline shown in the hero section.
+                            </small>
+
+                        </div>
+
+
+                        <div class="settings-group settings-full">
+
+                            <label for="hero_description">
+                                Hero Description
+                            </label>
+
+                            <textarea
+                                id="hero_description"
+                                name="hero_description"
+                                rows="4"
+                                placeholder="Write a short introduction for your portfolio..."
+                            >{{ settings['hero_description'] if settings else '' }}</textarea>
+
+                            <small>
+                                Keep this concise and focused on your professional profile.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ABOUT -->
+
+            <section class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div>
+                        <span class="settings-section-label">
+                            ABOUT
+                        </span>
+
+                        <h2>About Section</h2>
+
+                        <p>
+                            Describe your background, interests, and professional goals.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+                    <div class="settings-group">
+
+                        <label for="about">
+                            About
+                        </label>
+
+                        <textarea
+                            id="about"
+                            name="about"
+                            rows="9"
+                            placeholder="Tell visitors about yourself..."
+                        >{{ settings['about'] if settings else '' }}</textarea>
+
+                        <small>
+                            This content will appear in the About section of your portfolio.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- CONTACT -->
+
+            <section class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div>
+                        <span class="settings-section-label">
+                            CONTACT
+                        </span>
+
+                        <h2>Contact Information</h2>
+
+                        <p>
+                            Configure the public contact and social profile links.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+                    <div class="settings-grid">
+
+                        <div class="settings-group">
+
+                            <label for="email">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ settings['email'] if settings else '' }}"
+                                placeholder="you@example.com"
+                            >
+
+                            <small>
+                                Used for contact information and portfolio links.
+                            </small>
+
+                        </div>
+
+
+                        <div class="settings-group">
+
+                            <label for="linkedin_url">
+                                LinkedIn URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="linkedin_url"
+                                name="linkedin_url"
+                                value="{{ settings['linkedin_url'] if settings else '' }}"
+                                placeholder="https://www.linkedin.com/in/..."
+                            >
+
+                            <small>
+                                Your public LinkedIn profile.
+                            </small>
+
+                        </div>
+
+
+                        <div class="settings-group">
+
+                            <label for="github_url">
+                                GitHub URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="github_url"
+                                name="github_url"
+                                value="{{ settings['github_url'] if settings else '' }}"
+                                placeholder="https://github.com/..."
+                            >
+
+                            <small>
+                                Your public GitHub profile.
+                            </small>
+
+                        </div>
+
+
+                        <div class="settings-group">
+
+                            <label for="resume_url">
+                                Resume URL
+                            </label>
+
+                            <input
+                                type="text"
+                                id="resume_url"
+                                name="resume_url"
+                                value="{{ settings['resume_url'] if settings else '' }}"
+                                placeholder="/resume/your-resume.pdf"
+                            >
+
+                            <small>
+                                Normally managed through the Resume section.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SAVE -->
+
+            <div class="settings-actions">
+
+                <a
+                    href="{{ url_for('admin_dashboard') }}"
+                    class="settings-cancel-btn"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="admin-primary-btn"
+                >
+                    Save Settings
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <footer class="admin-footer">
+            Portfolio Admin Panel
+        </footer>
+
+    </main>
+
+</div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resume | Admin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    {% include "admin/_sidebar.html" %}
+
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+        <div class="admin-mobile-header">
+
+            <div class="admin-mobile-brand">
+                <div class="admin-logo-mark">A</div>
+
+                <div>
+                    <strong>Portfolio CMS</strong>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="admin-mobile-menu-button"
+                id="adminMobileMenuButton"
+                aria-label="Open admin navigation"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+        <!-- TOPBAR -->
+        <div class="admin-topbar">
+
+            <div>
+                <div class="admin-eyebrow">
+                    PORTFOLIO
+                </div>
+
+                <h1>Resume</h1>
+
+                <p class="admin-subtitle">
+                    Upload and manage the resume displayed on your portfolio.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- CURRENT RESUME -->
+        <section class="admin-section">
+
+            <div class="resume-page-header">
+
+                <div>
+                    <h2>Current Resume</h2>
+
+                    <p>
+                        Manage the PDF currently available on your portfolio.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="resume-current-card">
+
+                {% if settings and settings["resume_url"] %}
+
+                    <div class="resume-file-icon">
+                        PDF
+                    </div>
+
+                    <div class="resume-file-info">
+
+                        <span class="resume-file-label">
+                            ACTIVE RESUME
+                        </span>
+
+                        <h3>
+                            {{ settings["resume_url"].split("/")[-1] }}
+                        </h3>
+
+                        <p>
+                            Your resume is currently uploaded and available
+                            from the public portfolio.
+                        </p>
+
+                    </div>
+
+                    <div class="resume-file-action">
+
+                        <a
+                            href="{{ url_for('static', filename=settings['resume_url'].replace('/resume/', 'resume/')) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="resume-view-btn"
+                        >
+                            View Resume
+                        </a>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="resume-empty-state">
+
+                        <div class="resume-empty-icon">
+                            PDF
+                        </div>
+
+                        <div>
+                            <h3>No Resume Uploaded</h3>
+
+                            <p>
+                                Upload your resume PDF below to make it
+                                available on your portfolio.
+                            </p>
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- UPLOAD / REPLACE RESUME -->
+        <section class="admin-section">
+
+            <div class="resume-upload-card">
+
+                <div class="resume-upload-header">
+
+                    <div>
+                        <span class="resume-upload-label">
+                            RESUME DOCUMENT
+                        </span>
+
+                        <h2>
+                            {% if settings and settings["resume_url"] %}
+                                Replace Resume
+                            {% else %}
+                                Upload Resume
+                            {% endif %}
+                        </h2>
+
+                        <p>
+                            Upload a PDF version of your latest resume.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form
+                    action="{{ url_for('manage_resume') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="resume-upload-form"
+                >
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{ csrf_token() }}"
+                    >
+
+                    <div class="resume-upload-zone">
+
+                        <div class="resume-upload-icon">
+                            ↑
+                        </div>
+
+                        <div class="resume-upload-content">
+
+                            <label for="resume">
+                                Choose Resume PDF
+                            </label>
+
+                            <p>
+                                Select a PDF file from your computer.
+                            </p>
+
+                            <small>
+                                PDF files only
+                            </small>
+
+                        </div>
+
+                        <input
+                            type="file"
+                            id="resume"
+                            name="resume"
+                            accept=".pdf,application/pdf"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="resume-form-footer">
+
+                        <span>
+                            Maximum supported format: PDF
+                        </span>
+
+                        <button
+                            type="submit"
+                            class="admin-primary-btn"
+                        >
+                            {% if settings and settings["resume_url"] %}
+                                Replace Resume
+                            {% else %}
+                                Upload Resume
+                            {% endif %}
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <footer class="admin-footer">
+            Portfolio Admin Panel
+        </footer>
+
+    </main>
+
+</div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+</body>
+</html>

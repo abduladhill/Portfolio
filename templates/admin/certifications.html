@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Certifications | Portfolio CMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        {% include "admin/_sidebar.html" %}
+
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <div class="admin-mobile-header">
+
+                <div class="admin-mobile-brand">
+                    <div class="admin-logo-mark">A</div>
+
+                    <div>
+                        <strong>Portfolio CMS</strong>
+                        <span>Admin Panel</span>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="admin-mobile-menu-button"
+                    id="adminMobileMenuButton"
+                    aria-label="Open admin navigation"
+                    aria-expanded="false"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+            </div>
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        CERTIFICATIONS
+                    </div>
+
+                    <div class="admin-subtitle">
+                        Manage your professional certifications
+                    </div>
+
+                </div>
+
+
+                <a href="/"
+                   target="_blank"
+                   class="admin-view-btn">
+                    View Portfolio ↗
+                </a>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <section class="admin-section">
+
+                <div class="certification-page-header">
+
+                    <div>
+
+                        <h1>Manage Certifications</h1>
+
+                        <p>
+                            Add and manage the professional certifications
+                            displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADD CERTIFICATION -->
+
+                <div class="certification-form-card">
+
+                    <div class="certification-form-header">
+
+                        <div>
+
+                            <h2>Add New Certification</h2>
+
+                            <p>
+                                Add certification details, issuing
+                                organization and credential information.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        action="{{ url_for('add_certification') }}"
+                        method="POST"
+                        class="certification-form"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <div class="certification-form-grid">
+
+                            <!-- CERTIFICATION NAME -->
+
+                            <div class="certification-form-group">
+
+                                <label for="name">
+                                    Certification Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Python for Data Science"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- ISSUER -->
+
+                            <div class="certification-form-group">
+
+                                <label for="issuer">
+                                    Issuing Organization
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="issuer"
+                                    name="issuer"
+                                    placeholder="NPTEL"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- ISSUE DATE -->
+
+                            <div class="certification-form-group">
+
+                                <label for="issue_date">
+                                    Issue Date
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="issue_date"
+                                    name="issue_date"
+                                    placeholder="2025"
+                                >
+
+                            </div>
+
+
+                            <!-- CREDENTIAL URL -->
+
+                            <div class="certification-form-group">
+
+                                <label for="credential_url">
+                                    Credential URL
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="credential_url"
+                                    name="credential_url"
+                                    placeholder="https://..."
+                                >
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="certification-form-group certification-full-width">
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    rows="5"
+                                    placeholder="Add details about this certification..."
+                                ></textarea>
+
+                                <span class="certification-form-help">
+                                    Add relevant details about what the
+                                    certification covers.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTION -->
+
+                        <div class="certification-form-actions">
+
+                            <button
+                                type="submit"
+                                class="admin-primary-btn"
+                            >
+                                + Add Certification
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- CERTIFICATION LIST -->
+
+                <div class="certification-list-header">
+
+                    <div>
+
+                        <h2>Certification History</h2>
+
+                        <p>
+                            Certifications currently displayed
+                            on your portfolio.
+                        </p>
+
+                    </div>
+
+
+                    <span class="certification-count">
+                        {{ certifications|length }} entries
+                    </span>
+
+                </div>
+
+
+                {% if certifications %}
+
+                    <div class="certification-management-grid">
+
+                        {% for certification in certifications %}
+
+                            <article class="certification-management-card">
+
+                                <div class="certification-card-top">
+
+                                    <div>
+
+                                        <h3>
+                                            {{ certification["name"] }}
+                                        </h3>
+
+                                        <div class="certification-issuer">
+                                            {{ certification["issuer"] }}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="certification-meta">
+
+                                    {% if certification["issue_date"] %}
+
+                                        <span>
+                                            {{ certification["issue_date"] }}
+                                        </span>
+
+                                    {% endif %}
+
+
+                                    {% if certification["credential_url"] %}
+
+                                        <a
+                                            href="{{ certification['credential_url'] }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="certification-credential-link"
+                                        >
+                                            View Credential ↗
+                                        </a>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                {% if certification["description"] %}
+
+                                    <p class="certification-description">
+                                        {{ certification["description"] }}
+                                    </p>
+
+                                {% endif %}
+
+
+                                <div class="certification-card-actions">
+
+                                    <a
+                                        href="{{ url_for('edit_certification', certification_id=certification['id']) }}"
+                                        class="certification-edit-btn"
+                                    >
+                                        Edit
+                                    </a>
+
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('delete_certification', certification_id=certification['id']) }}"
+                                        style="display: inline;"
+                                    >
+                                        <input
+                                            type="hidden"
+                                            name="csrf_token"
+                                            value="{{ csrf_token() }}"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="project-delete-btn"
+                                            onclick="return confirm('Are you sure you want to delete this certification?');"
+                                        >
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="certification-empty-state">
+
+                        <div class="certification-empty-icon">
+                            +
+                        </div>
+
+                        <h3>No certifications yet</h3>
+
+                        <p>
+                            Add your first certification using
+                            the form above.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <footer class="admin-footer">
+                Portfolio CMS
+            </footer>
+
+        </main>
+
+    </div>
+<script>
+    const adminMobileMenuButton =
+        document.getElementById("adminMobileMenuButton");
+
+    const adminSidebar =
+        document.querySelector(".admin-sidebar");
+
+    adminMobileMenuButton.addEventListener("click", () => {
+
+        const isOpen =
+            adminSidebar.classList.toggle("admin-sidebar-mobile-open");
+
+        adminMobileMenuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+</script>
+</body>
+
+</html>
