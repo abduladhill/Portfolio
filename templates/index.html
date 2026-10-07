@@ -750,7 +750,7 @@
                             method="POST"
                             class="contact-form"
                         >
-
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div class="form-group">
 
                                 <label for="contact-name">
