@@ -9,23 +9,6 @@ A personal portfolio website with a protected content-management area. It lets t
 This project is a server-rendered Flask application backed by SQLite. The public site presents projects, skills, experience, education, certifications, a resume link, and a contact form. Authenticated administrators use the `/admin` area to manage the portfolio content.
 
 
-## Application Screenshots
-
-### Potential phishing result
-
-The application flags a URL as potential phishing and displays the model's phishing score.
-
-![Potential phishing result](screenshots/phishing-result.png)
-
-### Likely legitimate result
-
-The application classifies a Google URL as likely legitimate and displays its phishing score.
-
-![Likely legitimate result](screenshots/legitimate-result.png)
-
-**Try it yourself:** [Open the live phishing URL detector](https://phishing-url-detection-a8whjsyefcrze4ykhdevec.streamlit.app/)
-
-
 ## Features
 
 - Protected administrator login and logout using Flask-Login; passwords are stored as hashes.
@@ -123,9 +106,19 @@ The application initializes its SQLite schema at startup. Portfolio data is stor
 
 The deployed portfolio is available at [https://abduladhil10.pythonanywhere.com/](https://abduladhil10.pythonanywhere.com/). Configure `SECRET_KEY` (and, for HTTPS, `SESSION_COOKIE_SECURE=1`) in the deployment environment rather than adding secrets to the repository.
 
-## Screenshots
+## Featured Project: Phishing URL Detection
 
-The repository includes project-content images, but no verified application screenshots. They are intentionally not presented here as interface screenshots.
+A machine-learning web application that analyzes URL-based features to estimate whether a URL may be phishing. It uses an Extra Trees classifier and a Streamlit interface.
+
+- **Live demo:** [Try the phishing URL detector](https://phishing-url-detection-a8whjsyefcrze4ykhdevec.streamlit.app/)
+- **Source code:** [GitHub repository](https://github.com/abduladhill/phishing-url-detection)
+- **Reported evaluation:** 96.66% accuracy and 94.31% phishing recall on a hostname-grouped held-out test split.
+
+The model uses URL-string features only. Its predictions are not a guarantee that a link is safe or malicious.
+
+## Portfolio Screenshots
+
+This section is reserved for screenshots of the portfolio website itself. Phishing detector screenshots belong in the phishing detector repository.
 
 ## License
 
