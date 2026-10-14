@@ -8,6 +8,24 @@ A personal portfolio website with a protected content-management area. It lets t
 
 This project is a server-rendered Flask application backed by SQLite. The public site presents projects, skills, experience, education, certifications, a resume link, and a contact form. Authenticated administrators use the `/admin` area to manage the portfolio content.
 
+
+## Application Screenshots
+
+### Potential phishing result
+
+The application flags a URL as potential phishing and displays the model's phishing score.
+
+![Potential phishing result](screenshots/phishing-result.png)
+
+### Likely legitimate result
+
+The application classifies a Google URL as likely legitimate and displays its phishing score.
+
+![Likely legitimate result](screenshots/legitimate-result.png)
+
+**Try it yourself:** [Open the live phishing URL detector](https://phishing-url-detection-a8whjsyefcrze4ykhdevec.streamlit.app/)
+
+
 ## Features
 
 - Protected administrator login and logout using Flask-Login; passwords are stored as hashes.
